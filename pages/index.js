@@ -1,5 +1,7 @@
 import {useSession, signIn, signOut, getSession} from 'next-auth/react';
 import ResponsiveAppBar from '@/src/Components/NavBar';
+
+
 export async function getServerSideProps(context){
   context.res.setHeader(
     "Cache-Control",
@@ -19,7 +21,8 @@ export async function getServerSideProps(context){
 
   return {
     props:{
-      usersession : session
+      usersession : session,
+      userlocations : await (await fetch(`http://localhost:3000/api/mongo/getuser?email=${session.user.email}`)).json()
     }
   }
 }
