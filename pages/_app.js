@@ -3,7 +3,7 @@ import {SessionProvider} from 'next-auth/react';
 
 
 export default function App(props) {
-  const {pageProps, session} = props;
+  const {Component, pageProps, session} = props;
 
 
   return (
