@@ -7,7 +7,7 @@ const Login= () =>{
     const {data:session} = useSession({required:true})
    
     if(session){
-        signIn('google', {callbackUrl : 'http://localhost:3000/nonexistent'})
+        signIn('google', {redirect : 'http://localhost:3000/newpage'})
         
         return(
             
