@@ -5,7 +5,7 @@ import {useSession, signIn, signOut} from 'next-auth/react'
 
 const Login= () =>{
     const {data:session} = useSession({required:true})
-    const router = useRouter()
+   
     if(session){
         
         return(
