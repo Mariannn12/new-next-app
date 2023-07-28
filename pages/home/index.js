@@ -10,14 +10,14 @@ export async function getServerSideProps(context){
   )
 
 
-  const session = await getSession(context);
-  if(!session){
-    return{
-      redirect:{
-        destination : '/login',
-      },
-    }
-  }
+  const {data:session} = useSession({required:true})
+  //if(!session){
+    //return{
+      //redirect:{
+        //destination : '/login',
+     // },
+    //}
+  //}
 
   return {
     props:{
