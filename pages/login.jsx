@@ -1,13 +1,13 @@
 import React from 'react'
 import {useSession, signIn, signOut} from 'next-auth/react'
-import { useRouter} from 'next/router'
+
 
 
 const Login= () =>{
     const {data:session} = useSession({required:true})
     const router = useRouter()
     if(session){
-        router.push('/')
+        
         return(
             
         <div>
@@ -22,7 +22,7 @@ const Login= () =>{
             <div>
 
                 <p>You are not signed in.</p>
-                <button onClick={()=>signIn('google',{callbackUrl : '/'})}>Log in</button>
+                <button onClick={()=>signIn('google',{callbackUrl : 'http://localhost:3000'})}>Log in</button>
             </div>
         )
     }
