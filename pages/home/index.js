@@ -12,7 +12,11 @@ export async function getServerSideProps(context){
 
   const session = await getSession(context);
   if(!session){
-    return { signIn }
+    return{
+      redirect:{
+        destination : '/login',
+      },
+    }
   }
 
   return {
