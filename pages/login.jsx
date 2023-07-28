@@ -23,7 +23,7 @@ const Login= () =>{
             <div>
 
                 <p>You are not signed in.</p>
-                <button onClick={()=>signIn('google',{callbackUrl : 'http://localhost:3000/newpage'})}>Log in</button>
+                <button onClick={()=>signIn('google',{redirect : 'http://localhost:3000/newpage'})}>Log in</button>
             </div>
         )
     }
