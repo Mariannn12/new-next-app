@@ -3,14 +3,14 @@ import ResponsiveAppBar from '@/src/Components/NavBar';
 
 
 export async function getServerSideProps(context){
+
   context.res.setHeader(
     "Cache-Control",
     "public, s-maxage=1800, stale-while-revalidate=86400"
 
   )
 
-
-  const {data:session} = useSession({required:true})
+  const session = getSession(context)
   //if(!session){
     //return{
       //redirect:{
@@ -25,6 +25,7 @@ export async function getServerSideProps(context){
       userlocations : await (await fetch(`http://localhost:3000/api/db/recentlocations?email=${session.user.email}`)).json()
     }
   }
+
 }
 
 
