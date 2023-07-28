@@ -12,7 +12,7 @@ export async function getServerSideProps(context){
 
   const session = await getSession(context);
   if(!session){
-    signIn()
+    return { signIn }
   }
 
   return {
