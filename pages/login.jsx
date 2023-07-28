@@ -5,9 +5,9 @@ import { useRouter } from 'next/router'
 
 const Login= () =>{
     const {data:session} = useSession({required:true})
-   
+   const router = useRouter()
     if(session){
-       const router = useRouter()
+       
 
        router.push("http://localhost:3000")
         
