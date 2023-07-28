@@ -1,6 +1,7 @@
 import {useSession, signIn, signOut, getSession} from 'next-auth/react';
 import ResponsiveAppBar from '@/src/Components/NavBar';
-
+import {getServerSession} from "next-auth/next"
+import  {authOptions}  from '../api/auth/[...nextauth]';
 
 export async function getServerSideProps(context){
 
@@ -13,17 +14,11 @@ export async function getServerSideProps(context){
   const session = await getSession(context)
 
 
-  if(!session){
-    return{
-      redirect:{
-        destination : '/login',
-      },
-    }
-  }
+ 
 
   return {
     props:{
-      usersession : session,
+      usersession : await getServerSession(context.req, context.res, authOptions),
       userlocations : await (await fetch(`http://localhost:3000/api/db/recentlocations?email=${session.user.email}`)).json()
     }
   }
@@ -46,6 +41,8 @@ function loadScript(src, position, id){
 }
 
 export default function SearchPlaces({usersession}){
+
+  
   return (
     <>
       <ResponsiveAppBar session={usersession} logOut={()=>logOut()}/>
