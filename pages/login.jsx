@@ -9,7 +9,7 @@ const Login= () =>{
     if(session){
        
 
-       router.push("http://localhost:3000/home")
+       router.push("/home")
         
         return(
             
@@ -25,7 +25,7 @@ const Login= () =>{
             <div>
 
                 <p>You are not signed in.</p>
-                <button onClick={()=>signIn('google',{redirect : 'http://localhost:3000/home'})}>Log in</button>
+                <button onClick={()=>signIn('google',{redirect : '/home'})}>Log in</button>
             </div>
         )
     }
