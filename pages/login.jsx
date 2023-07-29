@@ -8,7 +8,7 @@ const Login= () =>{
 
     if(session){
 
-        Router.push('home')
+        window.location.href = "/home"
         return(
             
         <div>
