@@ -83,7 +83,7 @@ export default function SearchAnyLocation(){
                     setValue(newValue);
                     window.location.href = `/search/${newValue.place_id}`
                 }}
-  
+
                 onInputChange={(event,newInputValue)=>{
                 setInputValue(newInputValue);
                 }}

@@ -9,15 +9,17 @@ const Login= () =>{
     if(session){
 
         window.location.href = "/home"
+
         return(
             
-        <div>
+            <div>
 
-            <p>Welcome, {session.user.email}</p>
-            <button onClick={()=>signOut()}>Sign out</button>
-        </div>
+                <p>Welcome, {session.user.email}</p>
+                <button onClick={()=>signOut()}>Sign out</button>
+            </div>
             
         )
+        
     }else{
         return(
             <div>

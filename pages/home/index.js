@@ -5,12 +5,6 @@ import  {authOptions}  from '../api/auth/[...nextauth]';
 
 export async function getServerSideProps(context){
 
-  context.res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=1800, stale-while-revalidate=86400"
-
-  )
-
   const session = await getSession(context)
 
   if(!session){
