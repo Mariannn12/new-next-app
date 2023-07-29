@@ -8,7 +8,7 @@ const Login= () =>{
 
     if(session){
 
-        Router.push('/home')
+        Router.push('home')
         return(
             
         <div>
