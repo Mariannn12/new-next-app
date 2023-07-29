@@ -13,18 +13,22 @@ export async function getServerSideProps(context){
 
   const session = await getSession(context)
 
-
- 
+  if(!session){
+    return {
+      redirect: {
+        destination : '/login'
+      }
+    }
+  }
 
   return {
     props:{
-      usersession : await getServerSession(context.req, context.res, authOptions),
+      usersession : session,
       userlocations : await (await fetch(`http://localhost:3000/api/db/recentlocations?email=${session.user.email}`)).json()
     }
   }
 
 }
-
 
 function loadScript(src, position, id){
 
@@ -45,7 +49,7 @@ export default function SearchPlaces({usersession}){
   
   return (
     <>
-      <ResponsiveAppBar session={usersession} logOut={()=>logOut()}/>
+      <ResponsiveAppBar session={usersession} logOut={()=>signOut()}/>
     
       
     </>

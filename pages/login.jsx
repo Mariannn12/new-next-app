@@ -7,10 +7,8 @@ const Login= () =>{
     const {data:session} = useSession({required:true})
 
     if(session){
-       
 
-       Router.push('/home')
-        
+        Router.push('/home')
         return(
             
         <div>
@@ -25,7 +23,7 @@ const Login= () =>{
             <div>
 
                 <p>You are not signed in.</p>
-                <button onClick={()=>signIn('google',{callbackUrl : '/home'})}>Log in</button>
+                <button onClick={()=>signIn('google',{redirect : '/home'})}>Log in</button>
             </div>
         )
     }
