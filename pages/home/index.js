@@ -10,7 +10,7 @@ export async function getServerSideProps(context){
     return {
       props:{
         usersession : session,
-        userlocations : session ? await (await fetch(`${process.env.NEXT_URL}/api/mongo/getuser?email=${session.user.email}`)).json() : {}
+        userlocations : session ? await (await fetch(`https://${context.req.headers.host}/api/mongo/getuser?email=${session.user.email}`)).json() : {}
 
       }
     }
