@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Modal from '@mui/material/Modal'
 
 
-export default function ResponsiveAppBar({logOut,session}){
+export default function ResponsiveAppBar({logOut,session,hostname}){
     
     const [profilemodal, setProfileModal] = React.useState(false);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -22,7 +22,7 @@ export default function ResponsiveAppBar({logOut,session}){
     React.useEffect(()=>{
         
         ;(async()=>{
-            const {_id, name, email,created_at} = (await(await fetch(`http://localhost:3000/api/mongo/getuser?email=${session.user.email}`)).json())
+            const {_id, name, email,created_at} = (await(await fetch(`https://${hostname}/api/mongo/getuser?email=${session.user.email}`)).json())
 
             setUserDetails(Object.assign({_id,name,email,created_at}, {icon: session.user.image}))
 

@@ -10,7 +10,8 @@ export async function getServerSideProps(context){
     return {
       props:{
         usersession : session,
-        userlocations : session ? await (await fetch(`https://${context.req.headers.host}/api/mongo/getuser?email=${session.user.email}`)).json() : {}
+        userlocations : session ? await (await fetch(`https://${context.req.headers.host}/api/mongo/getuser?email=${session.user.email}`)).json() : {},
+        hostname: context.req.headers.host
 
       }
     }
@@ -18,12 +19,12 @@ export async function getServerSideProps(context){
 }
 
 
-export default function SearchPlaces({usersession, userlocations}){
+export default function SearchPlaces({usersession, userlocations,hostname}){
   const {data:session} = useSession({required:true})
   
   return (
     <>
-      <ResponsiveAppBar session={usersession} logOut={()=>signOut()}/>
+      <ResponsiveAppBar session={usersession} logOut={()=>signOut()} hostname={hostname} />
 
       <button onClick={()=> signOut()}>Sign out</button>
     
