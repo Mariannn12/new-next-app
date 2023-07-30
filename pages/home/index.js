@@ -9,7 +9,8 @@ export async function getServerSideProps(context){
 
     return {
       props:{
-        usersession : session
+        usersession : session,
+        userlocations : session ? await (await fetch(`http://localhost:3000/api/mongo/getuser?email=${session.user.email}`)).json() : {}
 
       }
     }
@@ -22,7 +23,7 @@ export default function SearchPlaces({usersession}){
   
   return (
     <>
-    
+      <ResponsiveAppBar session={usersession} logOut={()=>signOut()}/>
 
       <button onClick={()=> signOut()}>Sign out</button>
     

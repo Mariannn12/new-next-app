@@ -18,7 +18,7 @@ async function joinWeatherLocation(id,lat,lon,location,place_id){
 }
 
 
-export default async function getRecentLocations (req,res){
+export default async function getRecentLocations(req,res){
     try{
 
         const {email} = req.query
