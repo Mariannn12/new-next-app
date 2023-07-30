@@ -3,6 +3,7 @@ import React from 'react';
 import ResponsiveAppBar from '@/src/Components/NavBar';
 import {getServerSession} from "next-auth/next"
 import  {authOptions}  from '../api/auth/[...nextauth]';
+import SearchAnyLocation from '@/src/Components/Search';
 import { useColorScheme } from '@mui/material';
 
 export async function getServerSideProps(context){
@@ -73,6 +74,7 @@ export default function SearchPlaces({usersession, userlocations,hostname,google
   return (
     <>
       <ResponsiveAppBar session={usersession} logOut={()=>signOut()} hostname={hostname} />
+      <SearchAnyLocation/>
 
       
     
