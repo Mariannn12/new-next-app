@@ -1,4 +1,5 @@
 import {useSession, signIn, signOut, getSession} from 'next-auth/react';
+import React from 'react';
 import ResponsiveAppBar from '@/src/Components/NavBar';
 import {getServerSession} from "next-auth/next"
 import  {authOptions}  from '../api/auth/[...nextauth]';
