@@ -10,7 +10,7 @@ export async function getServerSideProps(context){
     return {
       props:{
         usersession : session,
-        userlocations : session ? await (await fetch(`/api/mongo/getuser?email=${session.user.email}`)).json() : {}
+        userlocations : session ? await (await fetch(`${process.env.NEXT_URL}/api/mongo/getuser?email=${session.user.email}`)).json() : {}
 
       }
     }
@@ -18,7 +18,7 @@ export async function getServerSideProps(context){
 }
 
 
-export default function SearchPlaces({usersession}){
+export default function SearchPlaces({usersession, userlocations}){
   const {data:session} = useSession({required:true})
   
   return (
@@ -30,6 +30,11 @@ export default function SearchPlaces({usersession}){
 
       <pre>
         {JSON.stringify(usersession,null,2)}
+      </pre>
+
+      <pre>
+
+        {JSON.stringify(userlocations,null,2)}
       </pre>
 
      
