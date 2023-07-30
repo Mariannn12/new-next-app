@@ -5,47 +5,35 @@ import  {authOptions}  from '../api/auth/[...nextauth]';
 
 export async function getServerSideProps(context){
 
-  const session = await getSession(context)
+  const session = await getServerSession(context.req, context.res, authOptions);
 
-  if(!session){
     return {
-      redirect: {
-        destination : '/login'
+      props:{
+        usersession : session,
+        userlocations : session ? await (await fetch(`http://localhost:3000/api/db/recentlocations?email=${session.user.email}`)).json() : {}
+
       }
     }
-  }
-
-  return {
-    props:{
-      usersession : session,
-      userlocations : await (await fetch(`http://localhost:3000/api/db/recentlocations?email=${session.user.email}`)).json()
-    }
-  }
-
-}
-
-function loadScript(src, position, id){
-
-  if(!position){
-    return;
-  }
-  
-  const script = document.createElement('script');
-  script.setAttribute('async', '');
-  script.setAttribute('id', id);
-  script.src = src;
-  position.appendChild(script);
   
 }
+
 
 export default function SearchPlaces({usersession}){
-
+  const {data:session} = useSession({required:true})
   
   return (
     <>
       <ResponsiveAppBar session={usersession} logOut={()=>signOut()}/>
+
+      <button onClick={()=> signOut()}>Sign out</button>
     
-      
+
+      <pre>
+        {JSON.stringify(usersession,null,2)}
+      </pre>
+
+     
+  
     </>
   )
 }
