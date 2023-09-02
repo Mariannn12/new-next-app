@@ -24,7 +24,7 @@ export default async function getRecentLocations(req,res){
         const {email} = req.query
         var result = []
 
-        const response = await (await fetch(`http://localhost:3000/api/mongo/getuser?email=${email}`)).json()
+        const response = await (await fetch(`https://localhost:3000/api/mongo/getuser?email=${email}`)).json()
 
         const recentplaces = response.recentplaces
 

@@ -22,6 +22,7 @@ export default function ResponsiveAppBar({logOut,session,hostname}){
     React.useEffect(()=>{
         
         ;(async()=>{
+            
             const {_id, name, email,created_at} = (await(await fetch(`https://${hostname}/api/mongo/getuser?email=${session.user.email}`)).json())
 
             setUserDetails(Object.assign({_id,name,email,created_at}, {icon: session.user.image}))

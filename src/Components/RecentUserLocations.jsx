@@ -21,7 +21,7 @@ export default function UserRecentLocation({userSession,locations}){
                 internalLocations.map((element,idx)=> (
                     <Card sx={{minWidth: 150, margin : 2}} align="center" key={idx}>
                     <CardContent>
-                    <Tooltip title="Delete"><IconButton onClick={async ()=>{await fetch('/api/mongo/deleteuserlocation', {method:"POST", headers:{"Content-Type" : "application/json"},body: JSON.stringify({email: userSession.user.email, place_id : element.place_id})}); setInternalLocations(internalLocations.filter((example)=> example.place_id !== element.place_id))}}><Delete/></IconButton></Tooltip>
+                    <Tooltip title="Delete"><IconButton onClick={async ()=>{await fetch(`https://${hostname}/api/mongo/deleteuserlocation`, {method:"POST", headers:{"Content-Type" : "application/json"},body: JSON.stringify({email: userSession.user.email, place_id : element.place_id})}); setInternalLocations(internalLocations.filter((example)=> example.place_id !== element.place_id))}}><Delete/></IconButton></Tooltip>
                     </CardContent>
               
                     <CardActionArea href={`/search/${element.place_id}`}>
