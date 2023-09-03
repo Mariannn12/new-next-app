@@ -1,5 +1,5 @@
 import {useSession, signIn, signOut, getSession} from 'next-auth/react';
-import React from 'react';
+import React, { useCallback } from 'react';
 import ResponsiveAppBar from '@/src/Components/NavBar';
 import {getServerSession} from "next-auth/next"
 import  {authOptions}  from '../api/auth/[...nextauth]';
@@ -10,17 +10,27 @@ import UserRecentLocation from '@/src/Components/RecentUserLocations';
 export async function getServerSideProps(context){
 
   const session = await getServerSession(context.req, context.res, authOptions);
-    console.log(session.user.email)
-    return {
-      props:{
-        usersession : session,
-        userlocations : session ? await (await fetch(`https://${context.req.headers.host}/api/db/recentlocations?email=${session.user.email}`)).json() : {},
-        hostname: context.req.headers.host,
-        googlekey : session ? await (await fetch(`https://${context.req.headers.host}/api/googleapikey`)).json() : {}
 
+  if(!session){
+
+    return {
+      redirect:{
+        destination : `https://${context.req.headers.host}/api/auth/signin`,
+        permanent : false
       }
     }
-  
+    
+  }
+  return {
+
+    props:{
+      usersession : session,
+      userlocations : session ? await (await fetch(`https://${context.req.headers.host}/api/db/recentlocations?email=${session.user.email}`)).json() : {},
+      hostname: context.req.headers.host,
+      googlekey : session ? await (await fetch(`https://${context.req.headers.host}/api/googleapikey`)).json() : {}
+
+    }
+  }
 }
 
 
@@ -78,10 +88,6 @@ export default function SearchPlaces({usersession, userlocations,hostname,google
       <SearchAnyLocation/>
       <UserRecentLocation locations={userlocations} userSession={usersession}/>
 
-      
-    
-
-      
     </>
   )
 }
