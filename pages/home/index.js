@@ -26,7 +26,7 @@ export async function getServerSideProps(context){
     props:{
 
       usersession : session,
-      present :  await(await fetch(`http://localhost:3000/api/mongo/postuser`, {
+      present :  await(await fetch(`https://${context.req.headers.host}/api/mongo/postuser`, {
 
         method : "POST",
         headers : {
