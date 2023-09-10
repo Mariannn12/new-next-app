@@ -15,7 +15,7 @@ export async function getServerSideProps(context){
 
     return {
       redirect:{
-        destination : `http://${context.req.headers.host}/api/auth/signin`,
+        destination : `https://${context.req.headers.host}/api/auth/signin`,
         permanent : false
       }
     }
@@ -26,7 +26,7 @@ export async function getServerSideProps(context){
     props:{
 
       usersession : session,
-      present :  await(await fetch(`http://${context.req.headers.host}/api/mongo/postuser`, {
+      present :  await(await fetch(`https://${context.req.headers.host}/api/mongo/postuser`, {
 
         method : "POST",
         headers : {
@@ -40,9 +40,9 @@ export async function getServerSideProps(context){
         })
 
       })).json(),
-      userlocations : await (await fetch(`http://${context.req.headers.host}/api/db/recentlocations?email=${session.user.email}`)).json() ,
+      userlocations : await (await fetch(`https://${context.req.headers.host}/api/db/recentlocations?email=${session.user.email}`)).json() ,
       hostname: context.req.headers.host,
-      googlekey : await (await fetch(`http://${context.req.headers.host}/api/googleapikey`)).json() 
+      googlekey : await (await fetch(`https://${context.req.headers.host}/api/googleapikey`)).json() 
 
     }
   }

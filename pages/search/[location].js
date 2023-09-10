@@ -21,9 +21,9 @@ import ResponsiveAppBar from "@/src/Components/NavBar";
 WeatherLocation.getInitialProps = async(ctx)=>{
     
     var place_id= ctx.query.location
-    const coordinates = await (await fetch(`http://${ctx.req.headers.host}/api/googlegeo?place_id=${place_id}`)).json()
-    const single = await (await fetch(`http://${ctx.req.headers.host}/api/weather?lat=${coordinates.lat}&lon=${coordinates.lng}`)).json()//OWM_ONE_CALL_API(coordinates.lat, coordinates.lng)  
-    const googlemapskey = await (await fetch(`http://${ctx.req.headers.host}/api/googleapikey`)).json()
+    const coordinates = await (await fetch(`https://${ctx.req.headers.host}/api/googlegeo?place_id=${place_id}`)).json()
+    const single = await (await fetch(`https://${ctx.req.headers.host}/api/weather?lat=${coordinates.lat}&lon=${coordinates.lng}`)).json()//OWM_ONE_CALL_API(coordinates.lat, coordinates.lng)  
+    const googlemapskey = await (await fetch(`https://${ctx.req.headers.host}/api/googleapikey`)).json()
     const hostname = ctx.req.headers.host;
    
     return {props: {currentweather:single.current, onecallcurrent:single.current, dailyforecast:single.daily, alerts:single.alerts, hourlyforecasts:single.hourly, location_info:coordinates, placeid : place_id, session:await getSession(ctx), googlemapskey : googlemapskey,hostname:hostname},};
@@ -278,7 +278,7 @@ export default function WeatherLocation({props}){
 
             try{
              
-            await fetch(`http://${props.hostname}/api/mongo/postuserlocation?email=${props.session.user.email}`,{
+            await fetch(`https://${props.hostname}/api/mongo/postuserlocation?email=${props.session.user.email}`,{
 
                 method : 'POST',
                 headers : {
