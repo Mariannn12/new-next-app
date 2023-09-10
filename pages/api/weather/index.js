@@ -1,19 +1,20 @@
-export const config = {
-    runtime: 'edge',
-  };
+
 export default async function handler(req,res){
 
     const {lat, lon} = req.query
 
     try{
+
         const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_OWM_KEY}&units=metric`)
         const data = await response.json()
-   
+        
         res.status(200).json({current : await Current_Weather(data), daily : await Daily_Weather(data), hourly : await Hourly_Weather(data), alerts : await Alerts_Weather(data)})
+
     }catch(error){
+
         res.status(500).json({message : error})
+
     }
-    
 }
 
 async function Current_Weather(response){
@@ -53,6 +54,7 @@ async function Daily_Weather(response){
 
     data.daily.forEach((element) => {
         forecasts.push({
+
             dt : new Date((element.dt + zone_difference) * 1000).toISOString().split('T')[0],
             sunrise : new Date((element.sunrise + zone_difference) * 1000).toLocaleString("en-US"),
             sunset : new Date((element.sunset + zone_difference) * 1000).toLocaleString("en-US"),
@@ -80,6 +82,7 @@ async function Daily_Weather(response){
             clouds : element.clouds,
             pop : element.pop,
             uvi : element.uvi,
+
         });
     });
 

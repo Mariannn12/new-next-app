@@ -10,6 +10,7 @@ import Avatar from '@mui/material/Avatar'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import Modal from '@mui/material/Modal'
+import { signOut } from 'next-auth/react'
 
 
 export default function ResponsiveAppBar({logOut,session,hostname}){
@@ -19,11 +20,13 @@ export default function ResponsiveAppBar({logOut,session,hostname}){
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [userDetails, setUserDetails] = React.useState({})
 
+
+
     React.useEffect(()=>{
-        
+
         ;(async()=>{
             
-            const {_id, name, email,created_at} = (await(await fetch(`https://${hostname}/api/mongo/getuser?email=${session.user.email}`)).json())
+            const {_id, name, email,created_at} = await(await fetch(`https://${hostname}/api/mongo/getuser?email=${session.user.email}`)).json()
 
             setUserDetails(Object.assign({_id,name,email,created_at}, {icon: session.user.image}))
 
@@ -87,7 +90,7 @@ export default function ResponsiveAppBar({logOut,session,hostname}){
                         variant='h6'
                         noWrap
                         component="a"
-                        href='/'
+                        href='/home'
                         sx={{
                             mr : 2,
                             display: {xs : 'none', md : 'flex'},

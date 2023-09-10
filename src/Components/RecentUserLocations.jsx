@@ -8,12 +8,24 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import CardActionArea from '@mui/material/CardActionArea';
 import _fetch from 'isomorphic-fetch';
+import { getSession } from 'next-auth/react';
 
 
-export default function UserRecentLocation({userSession,locations}){
+export default function UserRecentLocation({userSession,locations,hostname}){
 
     const [internalLocations, setInternalLocations] = React.useState(locations)
+    const [internalSession, setInternalSession] = React.useState({})
+
+    React.useEffect(()=>{
+
+        ;(async()=>{
+            setInternalSession(await getSession())
+            
+        })()
+
+    },[])
     
+
     return(
         <div className='card-container' style={{display : 'flex', flexWrap : 'wrap', padding:30}}>
 
@@ -21,7 +33,7 @@ export default function UserRecentLocation({userSession,locations}){
                 internalLocations.map((element,idx)=> (
                     <Card sx={{minWidth: 150, margin : 2}} align="center" key={idx}>
                     <CardContent>
-                    <Tooltip title="Delete"><IconButton onClick={async ()=>{await fetch(`https://${hostname}/api/mongo/deleteuserlocation`, {method:"POST", headers:{"Content-Type" : "application/json"},body: JSON.stringify({email: userSession.user.email, place_id : element.place_id})}); setInternalLocations(internalLocations.filter((example)=> example.place_id !== element.place_id))}}><Delete/></IconButton></Tooltip>
+                    <Tooltip title="Delete"><IconButton onClick={async ()=>{await fetch(`https://${hostname}/api/mongo/deleteuserlocation`, {method:"POST", headers:{"Content-Type" : "application/json"},body: JSON.stringify({email: internalSession.user.email, place_id : element.place_id})}); setInternalLocations(internalLocations.filter((example)=> example.place_id !== element.place_id))}}><Delete/></IconButton></Tooltip>
                     </CardContent>
               
                     <CardActionArea href={`/search/${element.place_id}`}>

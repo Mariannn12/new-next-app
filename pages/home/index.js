@@ -1,11 +1,11 @@
 import {useSession, signIn, signOut, getSession} from 'next-auth/react';
-import React, { useCallback } from 'react';
+import React from 'react';
 import ResponsiveAppBar from '@/src/Components/NavBar';
 import {getServerSession} from "next-auth/next"
 import  {authOptions}  from '../api/auth/[...nextauth]';
 import SearchAnyLocation from '@/src/Components/Search';
-import { useColorScheme } from '@mui/material';
 import UserRecentLocation from '@/src/Components/RecentUserLocations';
+
 
 export async function getServerSideProps(context){
 
@@ -15,29 +15,45 @@ export async function getServerSideProps(context){
 
     return {
       redirect:{
-        destination : `https://${context.req.headers.host}/api/auth/signin`,
+        destination : `http://${context.req.headers.host}/api/auth/signin`,
         permanent : false
       }
     }
-    
   }
-  return {
 
+  return {
+    
     props:{
+
       usersession : session,
-      userlocations : session ? await (await fetch(`https://${context.req.headers.host}/api/db/recentlocations?email=${session.user.email}`)).json() : {},
+      present :  await(await fetch(`http://localhost:3000/api/mongo/postuser`, {
+
+        method : "POST",
+        headers : {
+          "Content-Type" : "application/json"
+        },
+        body : JSON.stringify({
+          name: session.user.name,
+          email: session.user.email,
+          created_at : new Date().toLocaleString(),
+          recentplaces : []
+        })
+
+      })).json(),
+      userlocations : await (await fetch(`https://${context.req.headers.host}/api/db/recentlocations?email=${session.user.email}`)).json() ,
       hostname: context.req.headers.host,
-      googlekey : session ? await (await fetch(`https://${context.req.headers.host}/api/googleapikey`)).json() : {}
+      googlekey : await (await fetch(`https://${context.req.headers.host}/api/googleapikey`)).json() 
 
     }
   }
 }
 
-
 function loadScript(src, position, id){
 
   if(!position){
+    
     return;
+
   }
   
   const script = document.createElement('script');
@@ -48,46 +64,43 @@ function loadScript(src, position, id){
   
 }
 
-
-export default function SearchPlaces({usersession, userlocations,hostname,googlekey}){
+export default function SearchPlaces({usersession, userlocations,hostname,googlekey,present}){
+ 
   const {data:session} = useSession({required:true})
-  console.log(userlocations)
   const loaded = React.useRef(false);
 
   if(typeof window !== 'undefined' && !loaded.current){
+
     if(!document.querySelector('#google-maps')){
-      loadScript(`https://maps.googleapis.com/maps/api/js?key=${googlekey.key}&libraries=places`,
-      document.querySelector('head'),
-      'google-maps',
-      )
+
+      loadScript(`https://maps.googleapis.com/maps/api/js?key=${googlekey.key}&libraries=places&callback=Function.prototype`,document.querySelector('head'),'google-maps',)
+
     }
+
     loaded.current = true
+
   }
 
   React.useEffect(()=>{
-    ;(async function(){
-      await fetch(`https://${hostname}/api/mongo/postuser`, {
-        method : "POST",
-        headers : {
-          "Content-Type" : "application/json"
-        },
 
-        body : JSON.stringify({
-          name: usersession.user.name,
-          email: usersession.user.email,
-          created_at : new Date().toLocaleString(),
-          recentplaces : []
-        })
-      })
+    ;(async function(){
+
+      
+
     })()
+
   }, [])
   
+
   return (
     <>
-      <ResponsiveAppBar session={usersession} logOut={()=>signOut()} hostname={hostname} />
-      <SearchAnyLocation/>
-      <UserRecentLocation locations={userlocations} userSession={usersession}/>
-
+      {session && (
+        <>
+        <ResponsiveAppBar session={usersession} logOut={()=>signOut()} hostname={hostname}/>
+        <SearchAnyLocation/>
+        <UserRecentLocation locations={userlocations} userSession={usersession} hostname={hostname}/>
+        </>
+      )}
     </>
   )
 }
