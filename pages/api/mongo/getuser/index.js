@@ -10,6 +10,7 @@ export default async function handler(req,res){
         const users = database.collection("Users")
         const cursor =  users.findOne({"email":email})
         res.status(200).send(await cursor)
+        
     }catch(error){
         res.status(500).json({message : error})
     }finally{
